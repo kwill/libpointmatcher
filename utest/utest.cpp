@@ -101,17 +101,17 @@ TEST(icpTest, icpTest)
 		fs::path cur_file = d->path();
 		cur_file.replace_extension(".cur_trans");
 		//std::cout << "Writing: " << cur_file << std::endl;
-		std::ofstream otfs(cur_file.c_str());
+		std::ofstream otfs(cur_file.string().c_str());
 		otfs.precision(16);
 		otfs << curT;
 		otfs.close();
-                
+
 		// Load reference transform
 		fs::path ref_file = d->path();
 		ref_file.replace_extension(".ref_trans");
 		PM::TransformationParameters refT = 0*curT;
 		//std::cout << "Reading: " << ref_file << std::endl;
-		std::ifstream itfs(ref_file.c_str());
+		std::ifstream itfs(ref_file.string().c_str());
 		for (int row = 0; row < refT.cols(); row++)
 		{
 			for (int col = 0; col < refT.cols(); col++)
@@ -142,7 +142,7 @@ TEST(icpTest, icpTest)
 
 		//std::cout << "Rotation error:    " << rotErr   << std::endl;
 		//std::cout << "Translation error: " << transErr << std::endl;
-		
+
 		EXPECT_LT(rotErr,   rotTol) << "This error was caused by the test file:" << endl << "   " << config_file;
 		EXPECT_LT(transErr, transTol) << "This error was caused by the test file:" <<  endl << "   " << config_file;
 	}
@@ -154,7 +154,7 @@ TEST(icpTest, icpSequenceTest)
 	DP pts0 = DP::load(dataPath + "cloud.00000.vtk");
 	DP pts1 = DP::load(dataPath + "cloud.00001.vtk");
 	DP pts2 = DP::load(dataPath + "cloud.00002.vtk");
-	
+
 	PM::TransformationParameters Ticp   = PM::Matrix::Identity(4,4);
 
 	PM::ICPSequence icpSequence;
@@ -167,7 +167,7 @@ TEST(icpTest, icpSequenceTest)
 	DP map = icpSequence.getInternalMap();
 	EXPECT_EQ(map.getNbPoints(), 0u);
 	EXPECT_EQ(map.getHomogeneousDim(), 0u);
-	
+
 	map = icpSequence.getMap();
 	EXPECT_EQ(map.getNbPoints(), 0u);
 	EXPECT_EQ(map.getHomogeneousDim(), 0u);
@@ -181,7 +181,7 @@ TEST(icpTest, icpSequenceTest)
 	map = icpSequence.getMap();
 	EXPECT_EQ(map.getNbPoints(), pts0.getNbPoints());
 	EXPECT_EQ(map.getHomogeneousDim(), pts0.getHomogeneousDim());
-	
+
 	Ticp = icpSequence(pts2);
 	map = icpSequence.getMap();
 	EXPECT_EQ(map.getNbPoints(), pts0.getNbPoints());
@@ -212,7 +212,7 @@ public:
 
 	// Will be called for every tests
 	virtual void TearDown()
-	{	
+	{
 	}
 };
 
