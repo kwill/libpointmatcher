@@ -297,12 +297,6 @@ if (DOXYGEN_FOUND)
 	install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/doc/html DESTINATION ${DOC_INSTALL_TARGET})
 endif (DOXYGEN_FOUND)
 
-set(USE_SWIG "false" CACHE BOOL "Use SWIG to generate wrapper library. If SWIG is not detected automatically, you must set SWIG_EXECUTABLE")
-if(USE_SWIG)
-	FIND_PACKAGE(SWIG REQUIRED)
-	INCLUDE(${SWIG_USE_FILE})
-endif(USE_SWIG)
-
 #=============== trigger other makefile ======================
 
 # Example programs
@@ -311,7 +305,8 @@ add_subdirectory(examples)
 add_subdirectory(evaluations)
 # Unit testing
 add_subdirectory(utest)
-
+# SWIG wrapper
+add_subdirectory(wrapper)
 
 #=================== allow find_package() =========================
 # 

@@ -2,3 +2,5 @@
 *.swp
 *.cur_trans
 build
+/wrapper/*.cs
+/wrapper/*.cxx
