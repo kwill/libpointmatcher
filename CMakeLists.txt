@@ -306,7 +306,8 @@ add_subdirectory(examples)
 add_subdirectory(evaluations)
 # Unit testing
 add_subdirectory(utest)
-
+# Wrappers for other languages
+add_subdirectory(wrapper)
 
 #=================== allow find_package() =========================
 # 
