@@ -89,8 +89,10 @@ install(FILES package.xml DESTINATION "share/${PROJECT_NAME}")
 #===========================================================================
 
 # Documentation
-set(DOXYFILE_LATEX false)
-include(UseDoxygen)
+if(NOT DEFINED DOXYGEN_FOUND OR DOXYGEN_FOUND)
+	set(DOXYFILE_LATEX false)
+	include(UseDoxygen)
+endif()
 
 # initially
 set(EXTERNAL_LIBS "")
