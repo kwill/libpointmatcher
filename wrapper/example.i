@@ -1,13 +1,15 @@
 %module example
 %{
 /* Includes the header in the wrapper code */
+#include "../pointmatcher/Registrar.h"
+#include "../pointmatcher/Parametrizable.h"
 #include "../pointmatcher/PointMatcher.h"
 #include "../pointmatcher/PointMatcherPrivate.h"
-#include "../pointmatcher/Parametrizable.h"
-#include "../pointmatcher/Registrar.h"
 #include "../pointmatcher/Timer.h"
 #include "../pointmatcher/IO.h"
 %}
+
+// #include "../utest/utest.h"
 
 /*
 Gracefully handle all exceptions
@@ -37,3 +39,4 @@ Gracefully handle all exceptions
 %include "../pointmatcher/PointMatcherPrivate.h"
 %include "../pointmatcher/Timer.h"
 %include "../pointmatcher/IO.h"
+// %include "../utest/utest.h"
