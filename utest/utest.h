@@ -24,6 +24,9 @@ extern DP data3D;
 extern PM::TransformationParameters validT2d;
 extern PM::TransformationParameters validT3d;
 
+int execute_tests(std::string path);
+int main(int argc, char **argv);
+
 //---------------------------
 // Base for ICP tests
 //---------------------------

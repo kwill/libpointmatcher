@@ -229,6 +229,34 @@ TEST_F(GenericTest, ICP_default)
 //---------------------------
 // Main
 //---------------------------
+int execute_tests(std::string path)
+{
+	dataPath = path;
+	
+	// Load point cloud for all tests
+	ref2D =  DP::load(dataPath + "2D_oneBox.csv");
+	data2D = DP::load(dataPath + "2D_twoBoxes.csv");
+	ref3D =  DP::load(dataPath + "car_cloud400.csv");
+	data3D = DP::load(dataPath + "car_cloud401.csv");
+
+	// Result of data express in ref (from visual inspection)
+	validT2d = PM::TransformationParameters(3,3);
+	validT2d <<  0.987498,  0.157629, 0.0859918,
+				-0.157629,  0.987498,  0.203247,
+						0,         0,         1;
+
+	validT3d = PM::TransformationParameters(4,4);
+	validT3d <<   0.982304,   0.166685,  -0.0854066,  0.0446816,
+	 			 -0.150189,   0.973488,   0.172524,   0.191998,
+	   			  0.111899,  -0.156644,   0.981296,  -0.0356313,
+	              0,          0,          0,          1;
+
+	testing::GTEST_FLAG(print_time) = true;
+	char **nullarg = nullptr;
+	testing::InitGoogleTest(0, nullarg);
+	return RUN_ALL_TESTS();
+}
+
 int main(int argc, char **argv)
 {
 	dataPath = "";
