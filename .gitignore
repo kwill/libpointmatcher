@@ -2,5 +2,5 @@
 *.swp
 *.cur_trans
 build
-/wrapper/csharp
-/wrapper/example_wrap.cxx
+/wrapper/*.
+/wrapper/*.cxx
