@@ -1,6 +1,6 @@
 # wrapper details
 set(WRAP_CSHARP "false" CACHE BOOL "Set to ON if the C# wrapper file should be compiled. The wrapper file must be pre-generated externally with SWIG.")
-set(WRAP_CSHARP_FILE "example_wrap.cxx" CACHE FILEPATH "Path to the C# wrapper file (.cxx extension)")
+set(WRAP_CSHARP_FILE "libpm_wrap.cxx" CACHE FILEPATH "Path to the C# wrapper file (.cxx extension)")
 
 if (WRAP_CSHARP)
 
