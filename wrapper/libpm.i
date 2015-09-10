@@ -1,4 +1,4 @@
-%module example
+%module libpm
 %{
 /* Includes the headers in the wrapper code (note: order matters) */
 #include "pointmatcher\IO.h"
@@ -7,13 +7,10 @@
 #include "pointmatcher\PointMatcher.h"
 #include "pointmatcher\Parametrizable.h"
 #include "pointmatcher\Registrar.h"
-#include "utest\utest.h"
 %}
 
-/*
-Gracefully handle all exceptions
-(See http://swig.org/Doc3.0/SWIGDocumentation.html#Library_stl_exceptions )
-*/
+/* Gracefully handle all exceptions */
+// from http://swig.org/Doc3.0/SWIGDocumentation.html#Library_stl_exceptions
 
 %include "exception.i"
 
@@ -30,25 +27,33 @@ Gracefully handle all exceptions
 %include "std_except.i"
 %include "std_string.i"
 
-/* Prerequisites */
+/* Prerequisite headers - SWIG definitions */
 
-#define NABO_VERSION_INT 10006
-// last tested version (token definition required in headers below)
-
-%rename(instantiate) operator ();
-%rename(shift_left) operator <<;
-%rename(shift_right) operator >>;
-%rename(is_equal) operator ==;
-// name C++ operators
+%rename(process) operator ();
+%rename(shiftLeft) operator <<;
+%rename(shiftRight) operator >>;
+%rename(isEqual) operator ==;
+// name C++-only operators
 
 %ignore loggerMutex;
 // SWIG .cxx compilation fails for this object
 // (occurs when using underlying Boost library)
 
+%ignore getNameParamsFromYAML;
+// MSVC compilation fails for this method
+// (because the .cxx uses Parametrizable::Parameters instead of
+// PointMatcherSupport::Parametrizable::Parameters)
+
+/* Prerequisite headers - include header files */
+
+#define NABO_VERSION_INT 10006
+// last tested version (token definition required in headers below)
+
 %include "../pointmatcher/Registrar.h"
 %include "../pointmatcher/Parametrizable.h"
+// parse the prerequisite header files
 
-/* Primary API */
+/* Primary API - SWIG definitions */
 
 %ignore getFeatureViewByName;
 %ignore getFeatureRowViewByName;
@@ -63,16 +68,16 @@ Gracefully handle all exceptions
 // (occurs when instantiating PointMatcher<float>::TransformationChecker::
 // StringVector)
 
+%include "arrays_csharp.i"
+%apply float INPUT[]  {float* map_input}
+%apply float OUTPUT[] {float* map_output}
+// wrap arrays for helper functions mapArrayToMatrix and mapMatrixToArray
+// (note this is a C#-specific solution)
+
+/* Primary API - header file */
+
 %include "../pointmatcher/PointMatcher.h"
+// parse the primary API
 
-%template(PointMatcherFloat) PointMatcher<float>;
-
-// %include "../pointmatcher/PointMatcherPrivate.h"
-// %include "../pointmatcher/Timer.h"
-// %include "../pointmatcher/IO.h"
-
-/* Include a high-level wrapper method (unit_test) for the unit tests */
-
-// %rename(unit_test) main;
-// %ignore IcpHelper;
-// %include "../utest/utest.h"
+%template(PM) PointMatcher<float>;
+// create a concrete class from the PointMatcher<T> template
