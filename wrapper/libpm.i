@@ -69,10 +69,11 @@
 // StringVector)
 
 %include "arrays_csharp.i"
-%apply float INPUT[]  {float* map_input}
-%apply float OUTPUT[] {float* map_output}
+%apply float INPUT[]  {float* array_in}
+%apply float OUTPUT[] {float* array_out}
 // wrap arrays for helper functions mapArrayToMatrix and mapMatrixToArray
 // (note this is a C#-specific solution)
+// see also http://stackoverflow.com/questions/5822529/swig-returning-an-array-of-doubles
 
 /* Primary API - header file */
 

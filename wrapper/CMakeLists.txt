@@ -7,10 +7,10 @@ if (WRAP_CSHARP)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MT")
 
 	# create wrapper library
-	add_library(pointmatchwrapper SHARED ${WRAP_CSHARP_FILE})
-	target_link_libraries(pointmatchwrapper pointmatcher)
+	add_library(libpm SHARED ${WRAP_CSHARP_FILE})
+	target_link_libraries(libpm pointmatcher)
 
-	install(TARGETS pointmatchwrapper
+	install(TARGETS libpm
 			ARCHIVE DESTINATION ${INSTALL_LIB_DIR}
 			LIBRARY DESTINATION ${INSTALL_LIB_DIR}
 			RUNTIME DESTINATION ${INSTALL_BIN_DIR})
