@@ -30,6 +30,16 @@
 %include "carrays.i"
 %array_class(float, floatArray);
 
+/* C# wrappers for array parameters */
+
+%include "arrays_csharp.i"
+%apply float INPUT[]  {float* array_in}
+%apply float OUTPUT[] {float* array_out}
+// wraps arrays used in helper functions mapArrayToMatrix and mapMatrixToArray
+// (note that array_out seems unreliable and iteration over a floatArray is preferred;
+// array_in works as expected)
+// see also http://stackoverflow.com/questions/5822529/swig-returning-an-array-of-doubles
+
 /* Prerequisite headers - SWIG definitions */
 
 %rename(process) operator ();
