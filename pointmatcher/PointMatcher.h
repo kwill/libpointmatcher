@@ -183,6 +183,109 @@ struct PointMatcher
 	typedef Parametrizable::ParametersDoc ParametersDoc; //!< alias
 	typedef Parametrizable::InvalidParameter InvalidParameter; //!< alias
 	
+	// helper functions for eigen types
+
+	//! Map an array to a dense ScalarType matrix
+	static Matrix mapArrayToMatrix(T* array_in, int rows, int columns) {
+		return Eigen::Map<Matrix>(array_in, rows, columns);
+	}
+
+	static void cout_array(T* array_to_cout) {
+		std::cout << array_to_cout[0] << " : " << array_to_cout[1] << ":" << array_to_cout[2] << ":" << array_to_cout[3] << ":" << array_to_cout[4] << std::endl;
+		
+		std::cerr << array_to_cout[0] << " : " << array_to_cout[1] << ":" << array_to_cout[2] << ":" << array_to_cout[3] << ":" << array_to_cout[4] << std::endl;
+	}
+	
+	//! Map a dense ScalarType matrix to an array
+	static void mapMatrixToArray(Matrix matrix, T* array_out) {
+		array_out = matrix.data();
+		cout_array(array_out);
+	}
+
+	//! Map a dense ScalarType matrix to an array
+	static T* mapMatrixToArrayReturn(Matrix matrix) {
+		cout_array(matrix.data());
+		return matrix.data();
+	}
+	
+	//! Map a dense ScalarType matrix to an array
+	static T* mapMatrixToArrayTestReturn() {
+
+		T raw_data[4 * 8] = {
+			1, 1, 0, 0,
+			0, 2, 0, 0,
+			2, 2, 0, 0,
+			2, 0, 0, 0,
+			0, 0, 3, 0,
+			0, 2, 3, 0,
+			2, 2, 3, 0,
+			2, 0, 3, 0
+		};
+
+		cout_array(raw_data);
+		return raw_data;
+	}	
+	
+	//! Map a dense ScalarType matrix to an array
+	static void mapMatrixToArrayTestPointer(T* array_out) {
+
+		T raw_data[4 * 8] = {
+			1, 1, 0, 0,
+			0, 2, 0, 0,
+			2, 2, 0, 0,
+			2, 0, 0, 0,
+			0, 0, 3, 0,
+			0, 2, 3, 0,
+			2, 2, 3, 0,
+			2, 0, 3, 0
+		};
+
+		T* data = new T[4 * 8];
+		data = raw_data; // assign base array to pointer
+		array_out = data; // assign pointer to target
+		cout_array(array_out);
+	}
+
+	//! Map a dense ScalarType matrix to an array
+	static void mapMatrixToArrayTestBasic(T* array_out) {
+
+		T raw_data[4 * 8] = {
+			1, 1, 0, 0,
+			0, 2, 0, 0,
+			2, 2, 0, 0,
+			2, 0, 0, 0,
+			0, 0, 3, 0,
+			0, 2, 3, 0,
+			2, 2, 3, 0,
+			2, 0, 3, 0
+		};
+
+		array_out = raw_data; // assign base array to target
+		cout_array(array_out);
+	}
+
+	//! Get the number of rows in a dense ScalarType matrix
+	static int getMatrixRows(Matrix matrix) {
+		return matrix.rows();
+	}
+
+	//! Get the number of columns in a dense ScalarType matrix
+	static int getMatrixColumns(Matrix matrix) {
+		return matrix.cols();
+	}
+	
+	static T getMatrixValueSafe(Matrix matrix, int col, int row) {
+		return matrix(col, row);
+	}
+
+	static T getMatrixValueCoeff(Matrix matrix, int col, int row) {
+		return matrix.coeff(col, row);
+	}
+	
+	static T getMatrixValueRef(Matrix matrix, int col, int row) {
+		return matrix.coeffRef(col, row);
+	}
+	
 	// ---------------------------------
 	// input types
 	// ---------------------------------
@@ -490,7 +593,7 @@ struct PointMatcher
 		// helper functions
 		static Matrix crossProduct(const Matrix& A, const Matrix& B);//TODO: this might go in pointmatcher_support namespace
 		ErrorElements& getMatchedPoints(const DataPoints& reading, const DataPoints& reference, const Matches& matches, const OutlierWeights& outlierWeights);
-		
+
 	protected:
 		T pointUsedRatio; //!< the ratio of how many points were used for error minimization
 		T weightedPointUsedRatio; //!< the ratio of how many points were used (with weight) for error minimization
