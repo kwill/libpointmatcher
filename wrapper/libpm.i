@@ -68,6 +68,9 @@
 // (occurs when instantiating PointMatcher<float>::TransformationChecker::
 // StringVector)
 
+%include "carrays.i"
+%array_class(float, floatArray);
+
 %include "arrays_csharp.i"
 %apply float INPUT[]  {float* array_in}
 %apply float OUTPUT[] {float* array_out}
