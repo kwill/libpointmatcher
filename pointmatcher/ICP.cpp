@@ -111,7 +111,7 @@ void PointMatcher<T>::ICPChainBase::setDefault()
 	this->inspector.reset(new typename InspectorsImpl<T>::NullInspector);
 }
 
-//! Construct an ICP algorithm from a YAML file
+//! Construct an ICP algorithm from a YAML file (given a filestream)
 template<typename T>
 void PointMatcher<T>::ICPChainBase::loadFromYaml(std::istream& in)
 {
@@ -158,6 +158,16 @@ void PointMatcher<T>::ICPChainBase::loadFromYaml(std::istream& in)
 				(boost::format("Module type %1% does not exist") % moduleType).str()
 			);
 	}
+}
+
+//! Construct an ICP algorithm from a YAML file (given a filename)
+template<typename T>
+void PointMatcher<T>::ICPChainBase::loadFromYaml(const std::string& fileName)
+{
+	// validate and load YAML config
+	ifstream ifs(fileName);
+	validateFile(fileName);
+	this->loadFromYaml(ifs);
 }
 
 //! Return the remaining number of points in reading after prefiltering but before the iterative process

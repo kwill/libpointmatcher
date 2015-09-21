@@ -700,6 +700,7 @@ struct PointMatcher
 		virtual void setDefault();
 		
 		void loadFromYaml(std::istream& in);
+		void loadFromYaml(const std::string& fileName);
 		unsigned getPrefilteredReadingPtsCount() const;
 		unsigned getPrefilteredReferencePtsCount() const;
 		
