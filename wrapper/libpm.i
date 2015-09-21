@@ -22,10 +22,13 @@
   }
 }
 
-/* Standard wrappers for other exceptions and strings */
+/* Standard wrappers for other exceptions, strings and arrays */
 
 %include "std_except.i"
 %include "std_string.i"
+
+%include "carrays.i"
+%array_class(float, floatArray);
 
 /* Prerequisite headers - SWIG definitions */
 
@@ -40,12 +43,13 @@
 // (occurs when using underlying Boost library)
 
 %ignore getNameParamsFromYAML;
-// MSVC compilation fails for this method
+// MSVC compilation of .cxx fails for this method
 // (because the .cxx uses Parametrizable::Parameters instead of
 // PointMatcherSupport::Parametrizable::Parameters)
 
 /* Prerequisite headers - include header files */
 
+#define NABO_VERSION "1.0.6"
 #define NABO_VERSION_INT 10006
 // last tested version (token definition required in headers below)
 
@@ -68,17 +72,11 @@
 // (occurs when instantiating PointMatcher<float>::TransformationChecker::
 // StringVector)
 
-%include "carrays.i"
-%array_class(float, floatArray);
-
-%include "arrays_csharp.i"
-%apply float INPUT[]  {float* array_in}
-%apply float OUTPUT[] {float* array_out}
-// wrap arrays for helper functions mapArrayToMatrix and mapMatrixToArray
-// (note this is a C#-specific solution)
-// see also http://stackoverflow.com/questions/5822529/swig-returning-an-array-of-doubles
-
 /* Primary API - header file */
+
+#define WRAPPER_VERSION "0.3.0"
+#define WRAPPER_VERSION_INT 00300
+// version number for this interface file
 
 %include "../pointmatcher/PointMatcher.h"
 // parse the primary API
