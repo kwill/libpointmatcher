@@ -64,7 +64,8 @@ InvalidModuleType::InvalidModuleType(const std::string& reason):
 template<typename T>
 PointMatcher<T>::ICPChainBase::ICPChainBase():
 	prefilteredReadingPtsCount(0),
-	prefilteredReferencePtsCount(0)
+	prefilteredReferencePtsCount(0),
+	finalSquaredDistance(-1)
 {}
 
 //! virtual desctructor
@@ -182,6 +183,14 @@ template<typename T>
 unsigned PointMatcher<T>::ICPChainBase::getPrefilteredReferencePtsCount() const
 {
 	return prefilteredReferencePtsCount;
+}
+
+//! Return the squared distance between closest points
+// FIXME: rename and return the value and make it all floats (T)
+template<typename T>
+T PointMatcher<T>::ICPChainBase::getFinalSquaredDistance() const
+{
+	return finalSquaredDistance;
 }
 
 //! Instantiate modules if their names are in the YAML file
@@ -391,8 +400,13 @@ typename PointMatcher<T>::TransformationParameters PointMatcher<T>::ICP::compute
 		// in test
 		
 		this->transformationCheckers.check(T_iter, iterate);
-	
+
 		++iterationCount;
+
+		// store the final squared distance between closest points
+		// (the value that has been minimised by ICP)
+		if (!iterate)
+			finalSquaredDistance = matches.getDistsQuantile(1.0);
 	}
 	
 	this->inspector->addStat("IterationsCount", iterationCount);
