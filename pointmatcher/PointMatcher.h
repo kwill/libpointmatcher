@@ -68,7 +68,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
 //! version of the Pointmatcher library as string
-#define POINTMATCHER_VERSION "1.2.3-previz_mod.2015.5"
+#define POINTMATCHER_VERSION "1.2.3-previz_mod.2015.6"
 //! version of the Pointmatcher library as an int
 #define POINTMATCHER_VERSION_INT 10203
 
@@ -708,7 +708,7 @@ struct PointMatcher
 	protected:
 		unsigned prefilteredReadingPtsCount; //!< remaining number of points after prefiltering but before the iterative process
 		unsigned prefilteredReferencePtsCount; //!< remaining number of points after prefiltering but before the iterative process
-		unsigned finalSquaredDistance; //!< the squared euclidean distance after the final iteration
+		T finalSquaredDistance; //!< the squared euclidean distance after the final iteration
 
 		ICPChainBase();
 		
